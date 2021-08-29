@@ -21,6 +21,7 @@ export default function Cart() {
     },
     dispatch 
     )  
+    
 
     const RemovefromCart = (index)=>{
         console.log("clicked" , index)

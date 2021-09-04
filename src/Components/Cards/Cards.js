@@ -20,8 +20,10 @@ export default function Cards(){
      dispatch
    )
 
+
+   /* json :"https://api.jsonbin.io/b/612b4851c5159b35ae05e881" */
   const getData = useCallback(async ()=>{
-      const res = await axios.get("https://api.jsonbin.io/b/612b4851c5159b35ae05e881") 
+      const res = await axios.get("http://localhost:5000/api/courses") 
       actions.dispatchCourseList(res.data)
   } ,[])
 

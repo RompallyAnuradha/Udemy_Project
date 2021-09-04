@@ -45,10 +45,10 @@ export default function Navbar(props)  {
 
  */}
                             <li className="nav-item col-12">
-                                <form className="form-inline my-2 my-lg-0 inbutton" onSubmit={handleSubmit}>
+                                <form className="form-inline my-2 my-lg-0 inbutton" onSubmit={handleSubmit} style={{marginLeft:"120px"}}>
                                 
                                     <input className="form-control form-control-lg mr-lg-0 col-12 bg-light border "
-                                        style={{ borderRadius: "5px 0px 0px 5px" ,width:"450px"}}
+                                        style={{ borderRadius: "5px 0px 0px 5px" ,width:"600px"}}
                                         name="query" 
                                         value={query}
                                         onChange={(e) => setQuery(e.target.value)}
@@ -67,9 +67,9 @@ export default function Navbar(props)  {
 
                 
      
-
+{/* 
                          <a className="nav-link btn btn-light text-dark border mx-1" href="#">Udemy for Bussiness</a> 
-                        <a className="nav-link btn btn-light text-dark border mx-1" href="#">Become an Instructor</a>  
+                        <a className="nav-link btn btn-light text-dark border mx-1" href="#">Become an Instructor</a>  */} 
 
                         <a href="https://github.com/wl-ui-2021/Anuradha-Product1"><h4 className="text-dark" style={{textDecoration:"none"}}>Anuradha</h4></a>
 
@@ -90,7 +90,7 @@ export default function Navbar(props)  {
 
                         
                         
-                    {!auth ?       <Link to="/Signup" ><button className="nav-link btn btn-primary text-light mx-2 text-decoration-none"  >Login</button></Link> 
+                    {!auth ?       <Link to="/Signup" ><button className="nav-link btn btn-primary text-light mx-2 text-decoration-none" >Login</button></Link> 
                                                  
                                 : <button  className="btn btn-primary" onClick={logoutHandler}>Signout</button>}
 

@@ -1,4 +1,5 @@
-import { GETCOURSELIST ,GETCOURSEDETAIL ,ADDTOCART , REMOVEFROMCART,TOTAL ,CARTDETAILS} from "./action";
+import { GETCOURSELIST ,GETCOURSEDETAIL ,ADDTOCART ,
+     REMOVEFROMCART,TOTAL ,CARTDETAILS ,AUTHENTICATED_USER} from "./action";
 
 const initialState = {
     coursesList : [],
@@ -6,6 +7,7 @@ const initialState = {
     cartData:[],
     length:0,
     total:0,  
+    authenticated:false,
     cartDetails:[], 
     isProductsLoading : true,
     isProductDetailLoading : true
@@ -29,8 +31,9 @@ export const CoursesReducer =(state =initialState ,action)=>{
             case ADDTOCART :
                 return{
                     ...state , 
-                    cartData :  [ ...state.cartData   ,action.payload],
-                    isProductDetailLoading : false
+                    cartData :  [ ...state.cartData   ,action.payload , ],
+                    isProductDetailLoading : false,
+                    
                 }
             case REMOVEFROMCART :
                 return{
@@ -50,6 +53,12 @@ export const CoursesReducer =(state =initialState ,action)=>{
                                 cartDetails :state.cartData,
                                 isProductDetailLoading : false
                             }
+            /* case AUTHENTICATED_USER:
+                
+                    return{
+                        ...state
+
+                            } */
         default :
             return {...state}  
     }

@@ -4,6 +4,7 @@ export const ADDTOCART ="ADDTOTOCART"
 export const REMOVEFROMCART ="REMOVEFROMCART"
 export const TOTAL ="TOTAL"
 export const CARTDETAILS="CARTDETAILS"
+export const AUTHENTICATED_USER ="AUTHENTICATED_USER"
 
 export const dispatchCourseList =(data)=>dispatch=>{
     return dispatch({
@@ -48,5 +49,12 @@ export const dispatchTotal = (data) => dispatch =>{
         return dispatch({
             type : CARTDETAILS,
             payload : data
+        })
+    }
+
+    export const dispatchAuthenticatedUser =(data)=>dispatch=>{
+        return dispatch({
+            type:AUTHENTICATED_USER,
+            payload:data
         })
     }

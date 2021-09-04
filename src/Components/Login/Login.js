@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React,{ useState ,useSelector } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import {BUTTON ,Input , Checkbox} from '../Common'
@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 
 import Container from '@material-ui/core/Container';
 import { Button } from 'bootstrap';
+import axios from 'axios';
 
 function Copyright() {
   return (
@@ -66,40 +67,47 @@ export default function Login(props) {
 /* 
   const {loginHandler}=this.props */
   const classes = useStyles();
-  
-  const [auth , setAuth ] = useState(false);
+  /* const productsData = useSelector((state) => state.CoursesReducer.authenticated)  */
+  const [redirectState, setRedirectState] = useState(false)
+   const [auth , setAuth ] = useState(false); 
   const [redirect ,setRedirect] = useState(false)
   const [formData , setFormData ] = useState({
-    email : 'anuradha@gmail.com',
-    password : 'abc123'
+    email : '',
+    password : ''
 })
 const [errors ,setError] = useState({
     email : '' ,
-    password : ''
+    password : '',
+    err:''
 })
 
-const handleChange=(e)=>{
-    setFormData({
-        ...formData , 
-        [e.target.name]  : e.target.value
-    })
+const handleChange = (e) => {
+  setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+  })
 }
 
-
-
-const handleSubmit = (e) =>{
-    e.preventDefault();  
-    if(formData.email == "anuradha@gmail.com" && formData.password == "abc123"){
-         props.loginHandler() 
-         setRedirect(true)
-    }else{
-        setError({
-            email : 'You have entered a wrong Email' ,
-            password : 'Either email or password is wrong'
-        })
-    }
-
+const handleSubmit = (e) => {
+  e.preventDefault();
+  // post the daat to the backedn using axios 
+  const url = "http://localhost:5000/api/auth/login"
+  axios.post(url, formData)
+      .then((resp) => {
+          console.log(resp)
+          setRedirect(true)
+      }).catch((errors) => {
+          console.log(errors.response)
+          setError({
+              email: errors.response.data.email,
+              password: errors.response.data.password,
+              
+          })
+      })
 }
+/*  const auth=()=>{
+  setState({ setAuth: true})
+}  */
 
 const {from} = props.location.state || {from : {pathname:"/"}}
 if(redirect){
@@ -117,7 +125,8 @@ if(redirect){
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} onSubmit={handleSubmit} noValidate style={{textAlign:"center"}}>
+        {errors && <h1>{errors.error}</h1>}
+        <form className={classes.form} onSubmit={handleSubmit}  style={{textAlign:"center"}}>
           <Grid container>
             <Grid item className={classes.item}>
             <Input 
@@ -151,7 +160,9 @@ if(redirect){
               </Link>
             </Grid>
           </Grid>
-          <BUTTON type="submit" text="login" color="primary"  ></BUTTON>
+
+          
+           <BUTTON type="submit" text="Login" color="primary" onclick={()=> setAuth = true} />
             
        {/*    {!auth ? 
             <>

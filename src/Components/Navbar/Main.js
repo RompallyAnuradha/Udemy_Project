@@ -17,6 +17,7 @@ export default function Main(){
 
     const [auth , setAuth] = useState(false)
 
+
     const [cartItems,setCrtItems]=useState([]); 
     
     const onAdd=(product)=>{

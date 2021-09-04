@@ -21,6 +21,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function Payment() {
     const productsData = useSelector((state) => state.CoursesReducer.cartDetails) 
+    
    console.log("products",productsData)
     
    const [open, setOpen] = React.useState(false);
@@ -210,10 +211,12 @@ export default function Payment() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
+            
         <Link to="/"  >  
+        
           <Button onClick={handleClose} color="secondary">
             Ok
-          </Button></Link>
+          </Button> </Link>
         </DialogActions>
       </Dialog>
                             </div>

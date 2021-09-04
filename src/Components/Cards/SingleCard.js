@@ -7,8 +7,7 @@ import { bindActionCreators } from 'redux'
 
 
 import axios from 'axios'
-import { computeHeadingLevel } from '@testing-library/react'
-import SimpleAccordion from './dropdown'
+
 
 
 
@@ -49,7 +48,7 @@ export const SingleCard = (props) => {
 
 
   const getProductData = useCallback(async () => {
-    const res = await axios.get("https://api.jsonbin.io/b/612b4851c5159b35ae05e881");
+    const res = await axios.get("http://localhost:5000/api/courses");
     const findProductData = res.data.find((p) => p.courses.toLowerCase().trim()=== props.match.params.id.toLowerCase())
     if(findProductData !== undefined){
     actions.dispatchCourseDetail(findProductData)

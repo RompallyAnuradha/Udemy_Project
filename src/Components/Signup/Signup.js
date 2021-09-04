@@ -1,23 +1,24 @@
-import React from 'react';
+import React,{useState,useDispatch,useSelector} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-
+import { dispatchAuthenticatedUser } from '../Cards/action';
+import { bindActionCreators } from 'redux';
+import { BUTTON, Input ,Checkbox } from '../Common'
 import Grid from '@material-ui/core/Grid';
-
+import axios from 'axios'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
-
+import { Redirect } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+   
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -35,8 +36,65 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
+ 
+  
+  
+  const [redirectState, setRedirectState] = useState(false)
+  const [formData, setFormData] = useState({
+      email: '',
+      password: '',
+      password2: "",
+      username: ""
+  })
+  const [errors, setError] = useState({
+      email: '',
+      password: '',
+      error: '',
+      password2: '',
+      username: '',
+  })
+
+  const handleChange = (e) => {
+      setFormData({
+          ...formData,
+          [e.target.name]: e.target.value
+      })
+  }
+
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      // post the daat to the backedn using axios 
+      const url = "http://localhost:5000/api/auth/register"
+      axios.post(url, formData)
+          .then((resp) => {
+              console.log(resp)
+              setRedirectState(true)
+           /*    const {token} = resp.data;
+              localStorage.setItem('token' ,token)
+              localStorage.getItem('token') */
+            
+          }).catch((errors) => {
+              console.log(errors.response)
+              setError({
+                  email: errors.response.data.email,
+                  password: errors.response.data.password,
+                  error: errors.response.data.error,
+                  password2: errors.response.data.password2,
+                  username: errors.response.data.username,
+              })
+          })
+  }
+
+   const { from } = props.location.state || { from: { pathname: '/' } }
+  if (redirectState) {
+      return <Redirect to={from} />
+  }
+
+ 
+
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -48,75 +106,70 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        {errors && <h1>{errors.error}</h1>}
+        <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
+            <Input
+                    name='username'
+                    placeholder="Enter username"
+                    value={formData.username}
+                    label="username"
+                    type="text"
+                    onChange={(e) => handleChange(e)}
+                    error={errors.username}
+                />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
+            <Input
+                    name='email'
+                    placeholder="Enter Email"
+                    value={formData.email}
+                    label="Email"
+                    type="email"
+                    onChange={(e) => handleChange(e)}
+                    error={errors.email}
+                />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
+            <Grid item xs={12} sm={6}>
+            <Input
+                    name='password'
+                    placeholder="Enter password"
+                    value={formData.password}
+                    label="Password"
+                    type="password"
+                    onChange={(e) => handleChange(e)}
+                    error={errors.password}
+                />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
+            <Grid item xs={12} sm={6}>
+            <Input
+                    name='password2'
+                    placeholder="confirm password"
+                    value={formData.password2}
+                    label="Password Confirmation"
+                    type="password"
+                    onChange={(e) => handleChange(e)}
+                    error={errors.password2}
+                />
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
+                control={<Checkbox
+                  label="Remember the sign details."
+                  onChange={(e) => handleChange(e)}
+              />}
+               
               />
             </Grid>
           </Grid>
-         <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign Up
-          </Button>
+         <BUTTON type="submit" text="Sign Up" color="primary" />
+          
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link to="/SignIn" variant="body2">
-                {"Already have an account? Sign in"}
-              </Link>
+            <Link to="/SignIn" variant="body2">
+                {"Already have an account? Login"}
+              </Link> 
             </Grid>
           </Grid>
         </form>

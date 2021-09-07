@@ -1,10 +1,12 @@
-import React ,{useState}from "react"
+import React ,{useState,useEffect}from "react"
 import { Link } from "react-router-dom"
 import { useHistory } from "react-router"
 import { useDispatch, useSelector } from "react-redux"
 import { BUTTON } from "../Common"
 import { bindActionCreators } from "redux"
 import { logoutUser } from "../actions/authActions"
+import axios from "axios"
+import { host } from "../utils/constants"
 
 export default function Navbar(props)  {
         const {auth  ,logoutHandler , loginHandler ,cartItems} = props
@@ -12,15 +14,17 @@ export default function Navbar(props)  {
         const [query ,setQuery] = useState("")
         const history = useHistory()
         const dispatch = useDispatch()
-        const isAuthenticated  = useSelector((state) => state.auth)
-
+        const {isAuthenticated}  = useSelector((state) => state.CoursesReducer)
+        const [profileData, setProfileData] = useState({})
+        const [loading, setLoading] = useState(false)
+        const [errors, setError] = useState("")
         const actions = bindActionCreators(
             {
               logoutUser
             },
             dispatch
           )
-        
+          
          /*  const handleClick = () => {
             return history.push('/')
           } */
@@ -59,7 +63,7 @@ export default function Navbar(props)  {
 
  */}
                             <li className="nav-item col-12">
-                                <form className="form-inline my-2 my-lg-0 inbutton" onSubmit={handleSubmit} style={{marginLeft:"120px"}}>
+                                <form className="form-inline my-2 my-lg-0 inbutton" onSubmit={handleSubmit} style={{marginLeft:"100px"}}>
                                 
                                     <input className="form-control form-control-lg mr-lg-0 col-12 bg-light border "
                                         style={{ borderRadius: "5px 0px 0px 5px" ,width:"600px"}}
@@ -84,21 +88,28 @@ export default function Navbar(props)  {
 {/* 
                          <a className="nav-link btn btn-light text-dark border mx-1" href="#">Udemy for Bussiness</a> 
                         <a className="nav-link btn btn-light text-dark border mx-1" href="#">Become an Instructor</a>  */} 
-
-                        <a href="https://github.com/wl-ui-2021/Anuradha-Product1"><h4 className="text-dark" style={{textDecoration:"none"}}>Anuradha</h4></a>
-
-
+                    
+                        <a href="https://github.com/wl-ui-2021/Anuradha-Product1"><h4 className="text-dark" style={{textDecoration:"none" , marginRight:"30px"}}>Anuradha</h4></a>
 
 
 
+
+                        <div style={{marginRight:"15px" }}>
+                            <Link to="profiledata">
+                          <img src="https://img.icons8.com/ios-glyphs/30/000000/user-male-circle.png"/>
+                          </Link>
+                           <h5>{productsData.user.username}</h5>
+                          </div>
 
                         <Link to="/Cart"  >
-                            <div>
-                            <i className="fa fa-shopping-cart  btn btn-secondary mx-2 rounded-circle"> {productsData.cartData.length}</i>
+                            <div >
+                            <i className="fa fa-shopping-cart  btn btn-secondary mx-2 rounded-circle" > {productsData.cartData.length}</i>
                            
                           </div>
                         </Link>
+                          
 
+                         
 
 
 
@@ -107,10 +118,11 @@ export default function Navbar(props)  {
                     {!isAuthenticated  ?       <Link to="/Signup" ><button className="nav-link btn btn-primary text-light mx-2 text-decoration-none" >Login</button></Link> 
                                                  
                                 : /* <BUTTON className="btn btn-primary" onClick={logoutHandler}>Signout</button>} */
-                                <BUTTON onClick={() => actions.logoutUser()} text="Logout" />
+                                <BUTTON onClick={() => actions.logoutUser()} text="Logout" color="primary" />
 
                     }
                     </div>
+                    
                 </nav>
 
 

@@ -15,6 +15,7 @@ import jwtDecode from "jwt-decode"
 import store from "../.."
 import { setUser } from "../actions/authActions"
 import PrivateRoutes from "../PrivateRoutes"
+import Profiledata from "../ProfileData/ProfileData"
 
 /* if (localStorage.getItem('jwtToken')) {
 
@@ -24,7 +25,7 @@ import PrivateRoutes from "../PrivateRoutes"
 
     store.dispatch(setUser(decoded))
 
-} */
+}  */
 
 
 export default function Main(){
@@ -91,9 +92,9 @@ export default function Main(){
               <Route exact path="/cart"  component={(props)=><Cart {...props} cartItems={cartItems}  onRemove={onRemove} auth={auth} logoutHandler={logoutHandler} loginHandler={loginHandler} />} />
                  :<Redirect to='/login'/>}
                   */}
-              <Route  auth={auth} path='/cart' component={(props) => <Cart {...props} cartItems={cartItems} onAdd={onAdd} onRemove={onRemove}  />} />
+              <PrivateRoutes auth={auth} path='/cart' component={(props) => <Cart {...props} cartItems={cartItems} onAdd={onAdd} onRemove={onRemove}  />} />
 
-
+              <Route path="/profiledata" component={Profiledata} />
               <Route  exact path="/payment" component={Payment}  cartItems={cartItems}/>
                
               <Route render={()=> <h3>Courses Page Not Found</h3>} />

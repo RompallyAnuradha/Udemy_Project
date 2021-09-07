@@ -89,7 +89,7 @@ const [errors ,setError] = useState({
 })
 
 
-const {isAuthenticated}= useSelector((state) => state.auth)  
+/* const {isAuthenticated}= useSelector((state) => state.CoursesReducer)   */
 
 
 const handleChange = (e) => {
@@ -164,7 +164,7 @@ const resetMessages = () => {
   setError([])
 }
 
-console.log(isAuthenticated) 
+/* console.log(isAuthenticated)  */
 return (
     <div style={{border:"2px dark"}} >
 

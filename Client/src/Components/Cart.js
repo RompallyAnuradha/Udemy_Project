@@ -1,17 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect ,useState} from 'react'
 import { Link } from 'react-router-dom';
 import { useSelector ,useDispatch} from 'react-redux';
-import { dispatchRemoveFromcart , dispatchTotal, dispatchcartDetails } from './Cards/action';
+import { dispatchRemoveFromcart , dispatchTotal, dispatchcartDetails } from './actions/action';
 import { bindActionCreators } from 'redux';
-export default function Cart() {
+import {Redirect} from 'react-router-dom'
+
+
+export default function Cart(props) {
     const productsData = useSelector((state) => state.CoursesReducer.cartData) 
    /*  const productData1 = useSelector((state) =>state.CoursesReducer.removeData) */
-   /*  const {cartItems,onAdd,onRemove}=props; */
-   /*  console.log("props" , props) 
-    const itemsPrice=cartItems.reduce((a,c)=> a + c.price * c.qty, 0 );
-    const taxPrice= itemsPrice * 0.14;  */
-    /* const totalPrice =itemsPrice + taxPrice + totalPrice */  
-    const itemsprice =useSelector((state)=>state.CoursesReducer.total)
+  const {cartItems,onAdd,onRemove}=props;
+  /*  const itemsPrice=cartItems.reduce((a,c)=> a + c.price * c.qty , 0 );
+   const taxPrice= itemsPrice * 0.14;
+   const shippingPrice = itemsPrice > 500 ? 0 : 50;
+   const totalPrice = itemsPrice + taxPrice + shippingPrice; */
+   const [redirect , setRedirect] = useState(false) 
+
+
+
+    
     
     const dispatch = useDispatch()
       const actions = bindActionCreators({
@@ -35,6 +42,11 @@ export default function Cart() {
    const cartdetails=()=>{
        actions.dispatchcartDetails()
    }
+      
+   
+   if(redirect){
+   return <Redirect to={{ pathname: '/SignIn' , state :{from :'/cart'} }} />
+  } 
     return (
      
         <div className="container-fluid">
@@ -65,7 +77,7 @@ export default function Cart() {
                                              
                                                 <td>
                                                  <div> 
-                                                
+                                              
                                                    
                                                     <button   className=" btn btn-danger text-white" onClick={()=>RemovefromCart(index)}>Remove </button>
                                                 </div> 
@@ -80,21 +92,21 @@ export default function Cart() {
                                  }
 
 <hr/>
-                                        <div className="card">
-                                            <div className="card-body">
+                                      {/*   <div className="card"> */}
+                                        {/*     <div className="card-body">
                                             <table className="table d-flex justify-content-end" >
                                                 <tbody>
                                                  <tr className="d-flex justify-content-between">
-                                                    {/* <td><strong>Course Price </strong> </td>
+                                              <td><strong>Course Price </strong> </td>
                                                     <td> &#8377; 
                                                         {itemsprice}
-                                                    </td> */}
+                                                    </td>  
                                                 </tr>
                                                 </tbody>
                                                 </table>
-                                                </div>
+                                                </div> */}
                             
-                            {/* {
+                            
                                 
                                     <> 
                                         <hr/>
@@ -102,40 +114,40 @@ export default function Cart() {
                                             <div className="card-body">
                                             <table className="table d-flex justify-content-end" >
                                                 <tbody>
-                                                 <tr className="d-flex justify-content-between">
+                                          {/*        <tr className="d-flex justify-content-between">
                                                     <td><strong>Course Price </strong> </td>
-                                                    <td> &#8377; {itemsPrice.toFixed(2)}</td>
+                                                    <td> &#8377; {itemsPrice}</td>
                                                 </tr>
                                                 <tr className="d-flex justify-content-between">
                                                     <td> <strong>Tax Price  </strong></td>
                                                     <td> &#8377; {taxPrice.toFixed(2)}</td>
-                                                </tr> 
+                                                </tr>  */}
                                                 
                                                 <tr className="d-flex justify-content-between">
                                                     <td><strong>Total Price  </strong> </td>
-                                                <td> &#8377; {totalPrice}</td>  
+                                                <td> &#8377; {productsData.price}</td>  
                                                 </tr>
                                                 </tbody>
                                             </table>
                                             <hr/>
                                  <div className="d-flex justify-content-end">
-                                               <Link to="/payment"> <button className="btn  btn-outline-primary" >Checkout</button></Link>
+                                               <Link to="/payment"> <button className="btn  btn-outline-primary">Checkout</button></Link>
                                             </div>
                                             </div>
                                         </div>
                                     </>
                                 
-                            } */}
-                            <div className="d-flex justify-content-end">
+                            
+                            {/* <div className="d-flex justify-content-end">
                                                <Link to="/payment"> <button className="btn  btn-outline-primary" onClick={()=>cartdetails()}>Checkout</button></Link>
-                                            </div>
+                                            </div> */}
                         </div>
                     </div>
                 </div>
             </div>
             </div>
 
-        </div>
+    
     )
 }
  

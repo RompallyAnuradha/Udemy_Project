@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from "react-router-dom"
 import { Accordion, makeStyles } from '@material-ui/core/'
-import { dispatchCourseDetail, dispatchAddTocart } from './action'
+import { dispatchCourseDetail, dispatchAddTocart } from '../actions/action'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
+import {Redirect} from 'react-router-dom'
 
 import axios from 'axios'
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 export const SingleCard = (props) => {
   const { onAdd } = props
   const { auth } = props
-
+  const [redirect , setRedirect] = useState(false) 
 
 
 
@@ -67,8 +67,18 @@ export const SingleCard = (props) => {
 
   const onAddRedux=  (productData) =>{
     console.log("hello")
-    actions.dispatchAddTocart(productData ,props.history)
+    console.log("onclick",props.location)
+    actions.dispatchAddTocart(productData ,props.history , props.location)
+    /* auth ? actions.dispatchAddTocart(productData ,props.history , props.location)
+    : */ setRedirect(true)
   }
+
+ /*  if(redirect){
+   return <Redirect to={{ pathname: '/SignIn' , state :{from :'/cart'} }} />
+  } */
+  
+  console.log("props in singlecard" , props)
+
   return (
     <>
 

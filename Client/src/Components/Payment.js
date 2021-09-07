@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 
-import {  dispatchcartDetails} from "./Cards/action"
+import {  dispatchcartDetails} from "./actions/action"
 import {bindActionCreators } from 'redux'
 import {useSelector , useDispatch} from 'react-redux'
 import axios from "axios"
@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function Payment() {
-    const productsData = useSelector((state) => state.CoursesReducer.cartDetails) 
+    const productsData = useSelector((state) => state.CoursesReducer.cartData) 
     
    console.log("products",productsData)
     

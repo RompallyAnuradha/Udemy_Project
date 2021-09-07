@@ -1,10 +1,7 @@
 import React,{useState,useDispatch,useSelector} from 'react';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { dispatchAuthenticatedUser } from '../Cards/action';
 import { bindActionCreators } from 'redux';
 import { BUTTON, Input ,Checkbox } from '../Common'
 import Grid from '@material-ui/core/Grid';
@@ -13,8 +10,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router';
+import CircularProgress from '@material-ui/core/CircularProgress'
+import { host } from '../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,15 +37,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp(props) {
   const classes = useStyles();
- 
-  
+  const history =useHistory()
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState("")
   
   const [redirectState, setRedirectState] = useState(false)
   const [formData, setFormData] = useState({
       email: '',
       password: '',
       password2: "",
-      username: ""
+      username: "",
+      
   })
   const [errors, setError] = useState({
       email: '',
@@ -65,18 +66,23 @@ export default function SignUp(props) {
 
   const handleSubmit = (e) => {
       e.preventDefault();
+      setLoading(true)
       // post the daat to the backedn using axios 
-      const url = "http://localhost:5000/api/auth/register"
+      const url = `${host}auth/register`
       axios.post(url, formData)
           .then((resp) => {
-              console.log(resp)
-              setRedirectState(true)
-           /*    const {token} = resp.data;
+              console.log(resp.data)
+              /* setRedirectState(true) */
+              setMessage(resp.data.message)
+              setLoading(false)
+              history.push('/SignIn')
+         /*     const {token} = resp.data;
               localStorage.setItem('token' ,token)
-              localStorage.getItem('token') */
+              localStorage.getItem('token')  */
             
           }).catch((errors) => {
               console.log(errors.response)
+              if(errors.response){
               setError({
                   email: errors.response.data.email,
                   password: errors.response.data.password,
@@ -84,15 +90,22 @@ export default function SignUp(props) {
                   password2: errors.response.data.password2,
                   username: errors.response.data.username,
               })
+            }else{
+              setError({error :"Unexpected Error"})
+            }
+            setLoading(false)
           })
   }
 
-   const { from } = props.location.state || { from: { pathname: '/' } }
+ /*   const { from } = props.location.state || { from: { pathname: '/' } }
   if (redirectState) {
       return <Redirect to={from} />
   }
-
- 
+ */
+  const resetMessages = () => {
+    setMessage("")
+    setError("")
+}
 
 
 
@@ -106,7 +119,14 @@ export default function SignUp(props) {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        {errors && <h1>{errors.error}</h1>}
+        {!message ? null 
+                : <h5 style={{color:'green'}}>{message && message}</h5>
+            }
+            {!errors ? null 
+                : <h5 style={{ color:'red'}}>{errors && errors.error}</h5>
+            }
+              {loading ? <CircularProgress /> : 
+        
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -118,6 +138,7 @@ export default function SignUp(props) {
                     type="text"
                     onChange={(e) => handleChange(e)}
                     error={errors.username}
+                    onClick={resetMessages}
                 />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -129,6 +150,7 @@ export default function SignUp(props) {
                     type="email"
                     onChange={(e) => handleChange(e)}
                     error={errors.email}
+                    onClick={resetMessages}
                 />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -140,6 +162,7 @@ export default function SignUp(props) {
                     type="password"
                     onChange={(e) => handleChange(e)}
                     error={errors.password}
+                    onClick={resetMessages}
                 />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -151,9 +174,10 @@ export default function SignUp(props) {
                     type="password"
                     onChange={(e) => handleChange(e)}
                     error={errors.password2}
+                    onClick={resetMessages}
                 />
             </Grid>
-            <Grid item xs={12}>
+           {/*  <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox
                   label="Remember the sign details."
@@ -161,10 +185,11 @@ export default function SignUp(props) {
               />}
                
               />
-            </Grid>
+            </Grid> */}
           </Grid>
-         <BUTTON type="submit" text="Sign Up" color="primary" />
           
+         <BUTTON type="submit" text="Sign Up" color="primary" />
+         
           <Grid container justifyContent="flex-end">
             <Grid item>
             <Link to="/SignIn" variant="body2">
@@ -173,6 +198,7 @@ export default function SignUp(props) {
             </Grid>
           </Grid>
         </form>
+}
       </div>
      
     </Container>

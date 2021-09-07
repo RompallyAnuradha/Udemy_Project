@@ -21,13 +21,15 @@ export const dispatchCourseDetail = (data) => dispatch =>{
     })
 }
 
-export const dispatchAddTocart = (data ,history) => dispatch =>{
-    history.push('/cart')
+export const dispatchAddTocart = (data ,history, location) => dispatch =>{
+   history.push('/cart')
    
     return dispatch({
         type : ADDTOCART,
         payload : data
     })
+
+
 }
 export const dispatchRemoveFromcart = (data) => dispatch =>{
     

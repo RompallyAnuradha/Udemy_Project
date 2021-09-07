@@ -4,6 +4,7 @@ const {validateRegisterInput , validationLoginInput} = require('../validation/au
 const jwt = require('jsonwebtoken')
 const {keys} = require('../config')
 
+
 exports.register = async (req,res) =>{
     console.log("re" , req.body)
     const {errors , isValid} = validateRegisterInput(req.body)

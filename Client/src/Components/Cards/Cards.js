@@ -3,7 +3,8 @@ import {bindActionCreators } from 'redux'
 import {useSelector , useDispatch} from 'react-redux'
 import axios from "axios"
 import { Link } from "react-router-dom"
-import { dispatchCourseList } from './action'
+import { dispatchCourseList } from '../actions/action'
+import Slidder from "../Slidder"
 
 
 export default function Cards(){
@@ -33,11 +34,12 @@ export default function Cards(){
 
   return(
     
-     
-      <div className="container my-3"  id="courseList">
+     <div>
        <div>
-        
-         </div>    
+         <Slidder />
+       </div>
+      <div className="container my-3"  id="courseList">
+         
         <h2>
           Loaded with JSON
         </h2>
@@ -81,6 +83,7 @@ export default function Cards(){
           
        )
       })}
+    </div>
     </div>
     </div>
 

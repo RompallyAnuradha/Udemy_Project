@@ -10,8 +10,22 @@ import Cards  from "../Cards/Cards"
 import SignUp from "../Signup/Signup"
 import {SingleCard} from "../Cards/index"
 import Payment from "../Payment"
-
+import { setHeaders } from "../utils/setHeaderToken"
+import jwtDecode from "jwt-decode"
+import store from "../.."
+import { setUser } from "../actions/authActions"
 import PrivateRoutes from "../PrivateRoutes"
+
+/* if (localStorage.getItem('jwtToken')) {
+
+    setHeaders(localStorage.jwtToken)
+
+    const decoded = jwtDecode(localStorage.jwtToken)
+
+    store.dispatch(setUser(decoded))
+
+} */
+
 
 export default function Main(){
 
@@ -52,6 +66,7 @@ export default function Main(){
     }
     const logoutHandler=()=>{
         setAuth(false)
+        localStorage.removeItem("token")
     }
 
 
@@ -59,27 +74,27 @@ export default function Main(){
     return(
         <div>
             <Navbar auth={auth} logoutHandler={logoutHandler} loginHandler={loginHandler} countCartItems={cartItems.length}/>
-            <Route exact path="/" component={Slidder}/>
+            {/* <Route exact path="/" component={Slidder}/> */}
             
             <Switch>
             <Route exact path="/" component={Cards} />
               
                
                 
-                <Route exact path="/SignIn"  component={(props)=><Login {...props} loginHandler={loginHandler}/>} />
+                <Route exact path="/SignIn"  render={(props)=><Login {...props} loginHandler={loginHandler}/>} />
                 
                 <Route exact  path="/Signup" component={SignUp}/>
                 
-               <Route path="/course/:id"  render={(props)=><SingleCard {...props}  onAdd={onAdd} />} />
+               <Route path="/course/:id"  component={(props)=><SingleCard {...props} auth={auth}  onAdd={onAdd} />} />
 
   {/*              {auth === true?
               <Route exact path="/cart"  component={(props)=><Cart {...props} cartItems={cartItems}  onRemove={onRemove} auth={auth} logoutHandler={logoutHandler} loginHandler={loginHandler} />} />
                  :<Redirect to='/login'/>}
                   */}
-              <PrivateRoutes auth={auth} path='/cart' component={(props) => <Cart {...props} cartItems={cartItems} onAdd={onAdd} onRemove={onRemove}  />} />
+              <Route  auth={auth} path='/cart' component={(props) => <Cart {...props} cartItems={cartItems} onAdd={onAdd} onRemove={onRemove}  />} />
 
 
-              <Route exact path="/payment" component={Payment} cartItems={cartItems}/> 
+              <Route  exact path="/payment" component={Payment}  cartItems={cartItems}/>
                
               <Route render={()=> <h3>Courses Page Not Found</h3>} />
              

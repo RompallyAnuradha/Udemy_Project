@@ -1,15 +1,29 @@
 import React ,{useState}from "react"
 import { Link } from "react-router-dom"
 import { useHistory } from "react-router"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { BUTTON } from "../Common"
+import { bindActionCreators } from "redux"
+import { logoutUser } from "../actions/authActions"
 
 export default function Navbar(props)  {
         const {auth  ,logoutHandler , loginHandler ,cartItems} = props
         const {countCartItems} =props
         const [query ,setQuery] = useState("")
         const history = useHistory()
+        const dispatch = useDispatch()
+        const isAuthenticated  = useSelector((state) => state.auth)
 
-       
+        const actions = bindActionCreators(
+            {
+              logoutUser
+            },
+            dispatch
+          )
+        
+         /*  const handleClick = () => {
+            return history.push('/')
+          } */
         const productsData = useSelector((state) => state.CoursesReducer)
         const handleSubmit =(e)=>{
             e.preventDefault()
@@ -90,11 +104,12 @@ export default function Navbar(props)  {
 
                         
                         
-                    {!auth ?       <Link to="/Signup" ><button className="nav-link btn btn-primary text-light mx-2 text-decoration-none" >Login</button></Link> 
+                    {!isAuthenticated  ?       <Link to="/Signup" ><button className="nav-link btn btn-primary text-light mx-2 text-decoration-none" >Login</button></Link> 
                                                  
-                                : <button  className="btn btn-primary" onClick={logoutHandler}>Signout</button>}
+                                : /* <BUTTON className="btn btn-primary" onClick={logoutHandler}>Signout</button>} */
+                                <BUTTON onClick={() => actions.logoutUser()} text="Logout" />
 
-
+                    }
                     </div>
                 </nav>
 

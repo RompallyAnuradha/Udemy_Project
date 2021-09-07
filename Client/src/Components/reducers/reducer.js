@@ -1,13 +1,17 @@
 import { GETCOURSELIST ,GETCOURSEDETAIL ,ADDTOCART ,
-     REMOVEFROMCART,TOTAL ,CARTDETAILS ,AUTHENTICATED_USER} from "./action";
+     REMOVEFROMCART,TOTAL ,CARTDETAILS } from "../actions/action";
+
 
 const initialState = {
     coursesList : [],
     coursesDetail : {},
     cartData:[],
     length:0,
-    total:0,  
-    authenticated:false,
+    total:0,
+    isAuthenticated: false,
+    user: {},
+    error: null,
+    successMessage: null,
     cartDetails:[], 
     isProductsLoading : true,
     isProductDetailLoading : true
@@ -47,19 +51,18 @@ export const CoursesReducer =(state =initialState ,action)=>{
                     total:  [ ...state.cartData   ,state.cartData.reduce((previtem, item)=>previtem+ (item.price * item.count))],
                     isProductDetailLoading : false
                         }
+            
             case CARTDETAILS :
                  return{
-                                ...state , 
-                                cartDetails :state.cartData,
-                                isProductDetailLoading : false
-                            }
-            /* case AUTHENTICATED_USER:
-                
-                    return{
-                        ...state
-
-                            } */
-        default :
-            return {...state}  
+                    ...state , 
+                    cartDetails :state.cartData,
+                    isProductDetailLoading : false
+                        }
+            
+            
+            default:
+                return { ...state }
+             
+         
     }
 }

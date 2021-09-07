@@ -8,14 +8,10 @@ router.get('/getUser', passport.authenticate('jwt' , {session : false}),authCont
 //@method - POST
 //@access Public 
 router.post('/register' ,authController.register)
-
-
 //@path - /api/auth/login 
 // @method - POST 
 // @acccess Public 
 router.post('/login' , authController.login)
-
-
 // router.post('/test' , verifyMiddleware ,authController.login)
 
 

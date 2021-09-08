@@ -123,10 +123,10 @@ export default function Cart(props) {
                                                     <td> &#8377; {taxPrice.toFixed(2)}</td>
                                                 </tr>  */}
                                                 
-                                                <tr className="d-flex justify-content-between">
+                                               {/*  <tr className="d-flex justify-content-between">
                                                     <td><strong>Total Price  </strong> </td>
                                                 <td> &#8377; {productsData.price}</td>  
-                                                </tr>
+                                                </tr> */}
                                                 </tbody>
                                             </table>
                                             <hr/>

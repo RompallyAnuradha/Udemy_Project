@@ -1,6 +1,6 @@
 import { GETCOURSELIST ,GETCOURSEDETAIL ,ADDTOCART ,
      REMOVEFROMCART,TOTAL ,CARTDETAILS } from "../actions/action";
-import { AUTH_LOGIN , AUTH_USER, ERROR_AUTH} from "../actions/authActions";
+/* import { AUTH_LOGIN , AUTH_USER, ERROR_AUTH} from "../actions/authActions"; */
 
 
 const initialState = {
@@ -9,10 +9,10 @@ const initialState = {
     cartData:[],
     length:0,
     total:0,
-    isAuthenticated: false,
+    /* isAuthenticated: false,
     user: {},
     error: null,
-    successMessage: null,
+    successMessage: null, */
     cartDetails:[], 
     isProductsLoading : true,
     isProductDetailLoading : true
@@ -59,7 +59,7 @@ export const CoursesReducer =(state =initialState ,action)=>{
                     cartDetails :state.cartData,
                     isProductDetailLoading : false
                         }
-            case AUTH_USER:
+            /* case AUTH_USER:
                 return {
                     ...state,
                     successMessage: action.payload
@@ -74,7 +74,7 @@ export const CoursesReducer =(state =initialState ,action)=>{
                     ...state,
                     isAuthenticated: true,
                     user: action.payload
-                            }
+                            } */
             
             default:
                 return { ...state }

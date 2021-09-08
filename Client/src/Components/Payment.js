@@ -181,10 +181,10 @@ export default function Payment() {
                                             
                                             <hr />
 
-                                            <div className="d-flex justify-content-between">
+                                          {/*   <div className="d-flex justify-content-between">
                                                 <p>Total</p>
                                                 <p>&#8377; {productsData.price}</p>
-                                            </div> 
+                                            </div>  */}
                                         </div>
                                     </div>
                                 </div>

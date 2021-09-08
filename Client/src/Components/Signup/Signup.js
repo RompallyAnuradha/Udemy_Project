@@ -69,6 +69,11 @@ export default function SignUp(props) {
       setLoading(true)
       // post the daat to the backedn using axios 
       const url = `${host}auth/register`
+     /*  const config ={
+        headers:{
+          'Content-type': 'application/json'
+        }
+      } */
       axios.post(url, formData)
           .then((resp) => {
               console.log(resp.data)
@@ -76,9 +81,7 @@ export default function SignUp(props) {
               setMessage(resp.data.message)
               setLoading(false)
               history.push('/SignIn')
-         /*     const {token} = resp.data;
-              localStorage.setItem('token' ,token)
-              localStorage.getItem('token')  */
+        
             
           }).catch((errors) => {
               console.log(errors.response)

@@ -12,26 +12,29 @@ import {SingleCard} from "../Cards/index"
 import Payment from "../Payment"
 import { setHeaders } from "../utils/setHeaderToken"
 import jwtDecode from "jwt-decode"
-import store from "../.."
+import store from "../../store"
 import { setUser } from "../actions/authActions"
 import PrivateRoutes from "../PrivateRoutes"
 import Profiledata from "../ProfileData/ProfileData"
 
-/* if (localStorage.getItem('jwtToken')) {
 
+
+
+ if (localStorage.getItem('jwtToken')) {
+    
     setHeaders(localStorage.jwtToken)
 
     const decoded = jwtDecode(localStorage.jwtToken)
-
+    
     store.dispatch(setUser(decoded))
 
-}  */
+}   
 
 
 export default function Main(){
 
     const [auth , setAuth] = useState(false)
-
+    
 
     const [cartItems,setCrtItems]=useState([]); 
     
@@ -92,7 +95,7 @@ export default function Main(){
               <Route exact path="/cart"  component={(props)=><Cart {...props} cartItems={cartItems}  onRemove={onRemove} auth={auth} logoutHandler={logoutHandler} loginHandler={loginHandler} />} />
                  :<Redirect to='/login'/>}
                   */}
-              <PrivateRoutes auth={auth} path='/cart' component={(props) => <Cart {...props} cartItems={cartItems} onAdd={onAdd} onRemove={onRemove}  />} />
+              <PrivateRoutes path='/cart' component={(props) => <Cart {...props} cartItems={cartItems} onAdd={onAdd} onRemove={onRemove}  />} />
 
               <Route path="/profiledata" component={Profiledata} />
               <Route  exact path="/payment" component={Payment}  cartItems={cartItems}/>

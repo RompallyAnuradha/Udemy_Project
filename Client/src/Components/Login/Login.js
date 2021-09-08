@@ -89,7 +89,7 @@ const [errors ,setError] = useState({
 })
 
 
-/* const {isAuthenticated}= useSelector((state) => state.CoursesReducer)   */
+/* const {isAuthenticated}= useSelector((state) => state.authReducer)    */
 
 
 const handleChange = (e) => {
@@ -126,12 +126,14 @@ const handleSubmit = (e) => {
           setHeaders(resp.data.token)
           const decoded = jwt_decode(resp.data.token)
           localStorage.setItem('jwtToken' , resp.data.token)
+         
           dispatch(setUser(decoded))
           setLoading(false)
           setRedirectState(true)
-          props.loginHandler()
+          /* history.push('/cart')  */
+        /*  props.loginHandler()  */
           
-        //  history.push('/cart') 
+       
        /*  localStorage.setItem('token', resp.data.token) 
           localStorage.getItem("token")  */
          
@@ -178,10 +180,10 @@ return (
           Sign in
         </Typography>
         {!message ? null 
-                : <h3 style={{border : "2px solid black", color:'green'}}>{message && message}</h3>
+                : <h3 style={{color:'green'}}>{message && message}</h3>
             }
             {!errors ? null 
-                : <h3 style={{ color:'red'}}>{errors && errors.error}</h3>
+                : <h5 style={{ color:'red'}}>{errors && errors.error}</h5>
             }
             {loading ? <CircularProgress/> :
         <form className={classes.form} onSubmit={handleSubmit}  style={{textAlign:"center"}}>

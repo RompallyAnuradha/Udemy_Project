@@ -80,9 +80,12 @@ export const SingleCard = (props) => {
   console.log("props in singlecard" , props)
 
   return (
-    <>
 
-
+    <div>
+     {
+        productData.isProductDetailLoading ? <><center><b><h3>Loading</h3></b></center> </> 
+            : 
+       <div>
       <div className="border border-dark bg-dark">
         <div class="container">
           <div className="row">
@@ -226,10 +229,10 @@ export const SingleCard = (props) => {
           </div>
         </div>
       </div>
-      <div>
-      
       </div>
-    </>
+       }
+    </div>
+    
 
   )
 }

@@ -14,7 +14,7 @@ export default function Navbar(props)  {
         const [query ,setQuery] = useState("")
         const history = useHistory()
         const dispatch = useDispatch()
-        const {isAuthenticated}  = useSelector((state) => state.CoursesReducer)
+        const {isAuthenticated}  = useSelector((state) => state.authReducer)
         const [profileData, setProfileData] = useState({})
         const [loading, setLoading] = useState(false)
         const [errors, setError] = useState("")
@@ -28,7 +28,8 @@ export default function Navbar(props)  {
          /*  const handleClick = () => {
             return history.push('/')
           } */
-        const productsData = useSelector((state) => state.CoursesReducer)
+        const productsData = useSelector((state) => state.authReducer)
+        const coursesdata =useSelector((state)=>state.CoursesReducer)
         const handleSubmit =(e)=>{
             e.preventDefault()
             history.push(`/course/${query}`)
@@ -103,7 +104,7 @@ export default function Navbar(props)  {
 
                         <Link to="/Cart"  >
                             <div >
-                            <i className="fa fa-shopping-cart  btn btn-secondary mx-2 rounded-circle" > {productsData.cartData.length}</i>
+                            <i className="fa fa-shopping-cart  btn btn-secondary mx-2 rounded-circle" > {coursesdata.cartData.length}</i>
                            
                           </div>
                         </Link>
